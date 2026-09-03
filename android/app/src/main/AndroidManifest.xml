@@ -4,8 +4,8 @@
     <application
         android:label="小食堂"
         android:icon="@mipmap/ic_launcher"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
-        android:allowBackup="false">
+        android:theme="@android:style/Theme.NoTitleBar"
+android:allowBackup="false">
         <activity
             android:name=".MainActivity"
             android:exported="true"
