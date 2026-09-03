@@ -1,0 +1,1041 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#C4694A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>爸爸媽媽小食堂</title>
+<style>
+:root{
+  --enamel:#FDF5E7;
+  --enamel-2:#F5E7D1;
+  --card:#FFFCF6;
+  --rim:#C4694A;
+  --rim-dark:#A4502F;
+  --pine:#7C8A46;
+  --ink:#4A382B;
+  --ink-soft:#95816A;
+  --line:#EADBC2;
+  --gold:#BE8A2C;
+  --heart:#D2635C;
+  --shadow:0 1px 2px rgba(120,84,44,.07),0 6px 14px rgba(120,84,44,.05);
+  /* 圓潤可愛的字：先用粉圓，抓不到就退回裝置自己的圓體或黑體 */
+  --sans:"Huninn","jf-openhuninn","Yuanti TC","Yuanti SC","Hiragino Maru Gothic ProN",
+         "Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --serif:var(--sans);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;height:100%}
+body{
+  background:var(--enamel);color:var(--ink);
+  font-family:var(--sans);font-size:17px;line-height:1.65;
+  overscroll-behavior:none;
+}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+:focus-visible{outline:3px solid var(--pine);outline-offset:2px}
+[hidden]{display:none !important}
+
+/* ---------- 頂欄 ---------- */
+.top{
+  background:linear-gradient(178deg,#D07E52 0%,#C4694A 62%,#B95C40 100%);
+  color:#fff;padding:14px 18px 12px;
+  display:flex;align-items:center;gap:14px;
+  border-bottom:5px double rgba(255,255,255,.45);
+  position:sticky;top:0;z-index:30;
+}
+.shop{
+  font-family:var(--serif);font-size:clamp(20px,4.6vw,27px);font-weight:700;
+  letter-spacing:.06em;margin:0;flex:1;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.shop small{
+  display:block;font-family:var(--sans);font-size:12px;letter-spacing:.24em;
+  font-weight:400;opacity:.72;margin-top:2px;
+}
+.topbtn{
+  background:rgba(74,56,43,.26);color:#fff;padding:10px 18px;
+  border-radius:999px;font-size:16px;font-weight:600;white-space:nowrap;
+}
+.topbtn:active{background:rgba(74,56,43,.42)}
+
+/* ---------- 菜單 ---------- */
+.wrap{max-width:1100px;margin:0 auto;padding:18px 16px 150px}
+.cat{
+  font-family:var(--serif);font-size:19px;font-weight:700;color:var(--rim);
+  margin:34px auto 16px;max-width:880px;
+  display:flex;align-items:center;gap:14px;letter-spacing:.22em;
+}
+.cat::before,.cat::after{content:"";flex:1;height:0;border-top:1px solid var(--line);border-bottom:3px double var(--line)}
+.cat:first-child{margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:880px;margin:0 auto}
+
+.dish{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:16px;overflow:hidden;padding:0;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;text-align:left;width:100%;
+}
+.dish:active{background:var(--enamel-2)}
+.thumb{
+  position:relative;width:100%;aspect-ratio:3/2;
+  background:var(--enamel-2);overflow:hidden;flex:none;
+}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb svg,.edit .pic svg{width:100%;height:100%;display:block}
+.thumb .ph{
+  width:100%;height:100%;display:grid;place-items:center;
+  font-family:var(--serif);font-size:52px;font-weight:700;color:#fff;opacity:.9;
+}
+.body{padding:14px 16px 10px;display:flex;flex-direction:column;gap:5px;flex:1}
+.dish .nm{font-family:var(--serif);font-size:23px;font-weight:700;line-height:1.3;letter-spacing:.03em}
+.dish .note{font-size:14px;color:var(--ink-soft);line-height:1.4}
+.dish .price{margin-top:auto;padding-top:9px;display:flex;align-items:center;gap:10px}
+.dish .price::before{content:"";flex:1;border-bottom:2.5px dotted var(--line);transform:translateY(-3px)}
+.hearts{display:inline-flex;align-items:center;gap:2px;color:var(--heart);line-height:1}
+.hearts svg{display:block}
+.hearts b{font-size:15px;font-weight:700;margin-left:3px;font-variant-numeric:tabular-nums}
+.bar .hearts,.free{color:#F2B8A6}
+.free{font-size:15px}
+.dish .free{color:var(--ink-soft)}
+.over{color:#F0A08C}
+.dish.out .thumb{filter:grayscale(1);opacity:.5}
+.dish.out .nm{text-decoration:line-through;color:var(--ink-soft)}
+.soldtag{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-6deg);
+  background:rgba(74,56,43,.86);color:#fff;border:2px solid rgba(255,255,255,.7);
+  font-size:15px;padding:6px 18px;border-radius:999px;letter-spacing:.14em;font-weight:700;
+}
+.no{
+  position:absolute;left:0;top:14px;z-index:2;
+  background:var(--ink);color:var(--enamel);
+  font-size:12px;padding:3px 10px 3px 9px;border-radius:0 999px 999px 0;
+  letter-spacing:.14em;font-variant-numeric:tabular-nums;
+}
+.stamp{
+  position:absolute;right:8px;top:8px;width:46px;height:46px;border-radius:50%;
+  background:var(--rim);color:#fff;display:grid;place-items:center;
+  font-family:var(--serif);font-size:22px;font-weight:700;
+  transform:rotate(-9deg);box-shadow:0 0 0 3px var(--card);
+}
+.step{display:flex;align-items:center;justify-content:flex-end;gap:14px;padding:0 16px 14px}
+.step button{
+  width:44px;height:44px;border-radius:50%;border:1.5px solid var(--rim);
+  color:var(--rim);font-size:23px;line-height:1;display:grid;place-items:center;
+}
+.step button:active{background:var(--rim);color:#fff}
+.step .q{font-size:20px;font-weight:700;min-width:26px;text-align:center;font-variant-numeric:tabular-nums}
+
+/* ---------- 結算條 ---------- */
+.bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  background:#5B4433;color:#fff;box-shadow:0 -4px 18px rgba(90,60,30,.16);
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:14px;transform:translateY(110%);
+}
+.bar.on{transform:none}
+@media (prefers-reduced-motion:no-preference){.bar{transition:transform .18s ease-out}}
+.bar .sum{flex:1;min-width:0}
+.bar .sum b{font-size:20px;font-variant-numeric:tabular-nums}
+.bar .sum span{display:block;font-size:13px;opacity:.66;margin-top:1px}
+.bar .go{background:var(--rim);color:#fff;padding:14px 30px;border-radius:999px;font-size:18px;font-weight:700}
+.bar .go:active{background:var(--rim-dark)}
+.bar .clr{color:#fff;opacity:.6;font-size:15px;padding:10px}
+
+/* ---------- 彈層 ---------- */
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(74,56,43,.46);display:none;align-items:flex-end;justify-content:center}
+.sheet.on{display:flex}
+.card{
+  background:var(--enamel);width:100%;max-width:620px;border-radius:18px 18px 0 0;
+  padding:22px 20px calc(22px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto;
+}
+.card h2{font-family:var(--serif);font-size:24px;margin:0 0 16px;font-weight:700;letter-spacing:.03em}
+.row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dotted var(--line);font-size:17px}
+.row b{font-variant-numeric:tabular-nums;font-weight:600}
+.total{display:flex;justify-content:space-between;padding:14px 0 4px;font-size:20px;font-weight:700}
+.field{display:block;margin:16px 0 6px;font-size:14px;color:var(--ink-soft)}
+input[type=text],input[type=number],input[type=url]{
+  width:100%;padding:13px 14px;border:1px solid var(--line);
+  border-radius:9px;background:var(--card);font-size:17px;
+}
+.who{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.who button{border:1px solid var(--line);background:var(--card);padding:9px 16px;border-radius:999px;font-size:16px}
+.who button:active{background:var(--pine);color:#fff;border-color:var(--pine)}
+.btn{width:100%;background:var(--rim);color:#fff;padding:16px;border-radius:10px;font-size:19px;font-weight:700;margin-top:20px}
+.btn:active{background:var(--rim-dark)}
+.btn.ghost{background:none;color:var(--ink-soft);font-weight:500;font-size:16px;margin-top:8px}
+
+/* ---------- 廚房 ---------- */
+.tabs{display:flex;gap:6px;padding:14px 16px 0;max-width:1100px;margin:0 auto}
+.tabs button{
+  flex:1;padding:13px 6px;border-radius:10px 10px 0 0;
+  border:1px solid var(--line);border-bottom:none;
+  background:var(--enamel-2);color:var(--ink-soft);font-size:16px;font-weight:600;
+}
+.tabs button[aria-selected=true]{background:var(--card);color:var(--rim)}
+
+.order{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--rim);border-radius:12px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.order.done{border-left-color:var(--pine);opacity:.6}
+.order .hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+.order .hd b{font-family:var(--serif);font-size:21px}
+.order .hd time{font-size:13px;color:var(--ink-soft)}
+.order ul{margin:0;padding:0;list-style:none;font-size:16px}
+.order li{display:flex;justify-content:space-between;padding:4px 0}
+.order .act{display:flex;gap:10px;margin-top:12px}
+.order .act button{border:1px solid var(--line);padding:9px 18px;border-radius:9px;font-size:15px;background:var(--card)}
+.order .act .ok{border-color:var(--pine);color:var(--pine);font-weight:600}
+
+/* 編輯行 */
+.edit{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
+  padding:14px;margin-bottom:12px;
+  display:grid;gap:10px;
+  grid-template-columns:120px 1fr 110px 130px;
+  align-items:start;
+}
+.edit .pic{
+  grid-row:span 2;width:120px;aspect-ratio:1;border-radius:9px;overflow:hidden;
+  background:var(--enamel-2);border:1px solid var(--line);position:relative;padding:0;
+}
+.edit .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.edit .pic .ph{width:100%;height:100%;display:grid;place-items:center;font-family:var(--serif);font-size:34px;color:#fff}
+.edit .pic .lbl{
+  position:absolute;left:0;right:0;bottom:0;background:rgba(74,56,43,.74);
+  color:#fff;font-size:13px;padding:5px 0;text-align:center;
+}
+.edit .full{grid-column:2/-1}
+.edit .tools{grid-column:2/-1;display:flex;gap:10px;align-items:center;font-size:15px;flex-wrap:wrap}
+.edit .tools label{display:flex;align-items:center;gap:7px;color:var(--ink-soft)}
+.edit .tools input[type=checkbox]{width:22px;height:22px}
+.edit .lnk{color:var(--pine);padding:8px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px}
+.edit .del{margin-left:auto;color:var(--rim);padding:8px 14px;border:1px solid var(--line);border-radius:9px}
+@media(max-width:620px){
+  .edit{grid-template-columns:96px 1fr}
+  .edit .pic{width:96px;grid-row:span 3}
+  .edit .full,.edit .tools{grid-column:1/-1}
+}
+
+.empty{text-align:center;color:var(--ink-soft);padding:64px 20px;font-size:17px}
+.empty b{display:block;font-family:var(--serif);font-size:21px;color:var(--ink);margin-bottom:8px}
+.hint{font-size:14px;color:var(--ink-soft);line-height:1.6;margin:18px 0 0}
+.meter{height:8px;background:var(--enamel-2);border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:10px 0 4px}
+.meter i{display:block;height:100%;background:var(--pine)}
+.toast{
+  position:fixed;left:50%;bottom:120px;transform:translateX(-50%);
+  background:#5B4433;color:#fff;padding:13px 26px;border-radius:999px;
+  font-size:16px;z-index:60;opacity:0;pointer-events:none;max-width:86vw;text-align:center;
+}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:no-preference){.toast{transition:opacity .2s}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1 class="shop" id="shopName">爸爸媽媽小食堂<small>花愛心吃晚餐</small></h1>
+  <button class="topbtn" id="navBtn">廚房</button>
+</header>
+
+<div id="viewOrder"><div class="wrap" id="menuArea"></div></div>
+
+<div id="viewKitchen" hidden>
+  <div class="tabs">
+    <button id="tabOrders" aria-selected="true">訂單</button>
+    <button id="tabMenu" aria-selected="false">改菜單</button>
+    <button id="tabSet" aria-selected="false">設定</button>
+  </div>
+  <div class="wrap" style="padding-top:16px">
+    <div id="paneOrders"></div>
+    <div id="paneMenu" hidden></div>
+    <div id="paneSet" hidden></div>
+  </div>
+</div>
+
+<div class="bar" id="bar">
+  <button class="clr" id="clearCart">清空</button>
+  <div class="sum"><b id="barTotal">0</b><span id="barCount">還沒點菜</span></div>
+  <button class="go" id="goCheck">去下單</button>
+</div>
+
+<div class="sheet" id="sheet"><div class="card" id="sheetCard"></div></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="filePick" accept="image/*" hidden>
+
+<script>
+"use strict";
+var KEY = "mama-shitang-v2";
+var $ = function(id){ return document.getElementById(id); };
+
+var DEFAULT = {
+  shop:"爸爸媽媽小食堂", slogan:"花愛心吃晚餐", showPrice:true, budget:0,
+  people:["爸爸","媽媽","我","奶奶"],
+  dishes:[
+    {id:1,name:"三杯雞",note:"九層塔要多",price:3,cat:"熱炒",img:"draw:meat:#8B4A24,#6E8F3E:basil",out:false},
+    {id:2,name:"滷肉",note:"滷到入口即化",price:3,cat:"熱炒",img:"draw:meat:#7A4A26,#C08A3A:scallion",out:false},
+    {id:3,name:"紅燒肉",note:"燉得爛爛的",price:3,cat:"熱炒",img:"draw:meat:#A8492A,#D18B44:scallion",out:false},
+    {id:4,name:"客家小炒",note:"豆干芹菜魷魚",price:3,cat:"熱炒",img:"draw:plate:#9C5A2E,#7C9A4B:chili",out:false},
+    {id:5,name:"蒼蠅頭",note:"下飯神器",price:2,cat:"熱炒",img:"draw:plate:#5E7A34,#8B4A2A:chili",out:false},
+    {id:6,name:"糖醋排骨",note:"酸酸甜甜",price:3,cat:"熱炒",img:"draw:meat:#C4552F,#E0913C:sesame",out:false},
+    {id:7,name:"蔥爆牛肉",note:"大火快炒",price:3,cat:"熱炒",img:"draw:plate:#8B4530,#6E9A45:scallion",out:false},
+    {id:8,name:"咕咾肉",note:"鳳梨要放",price:3,cat:"熱炒",img:"draw:fried:#D2733A,#C4452F:sesame",out:false},
+    {id:9,name:"打拋豬",note:"配白飯剛好",price:2,cat:"熱炒",img:"draw:plate:#A84A32,#6E9A45:basil",out:false},
+    {id:10,name:"宮保雞丁",note:"乾辣椒香",price:3,cat:"熱炒",img:"draw:plate:#B04A2A,#C9922F:chili",out:false},
+    {id:11,name:"醬燒雞腿",note:"皮脆肉嫩",price:3,cat:"熱炒",img:"draw:meat:#8E5228,#D0973F:sesame",out:false},
+    {id:12,name:"香腸炒高麗菜",note:"家裡最常做",price:2,cat:"熱炒",img:"draw:plate:#C4553F,#8AA84E:scallion",out:false},
+    {id:13,name:"螞蟻上樹",note:"冬粉吸滿醬",price:2,cat:"熱炒",img:"draw:noodle:#C8A66A,#A84A32:scallion",out:false},
+    {id:14,name:"麻婆豆腐",note:"會麻會辣",price:2,cat:"熱炒",img:"draw:tofu:#EFE0C0,#B33F28:chili",out:false},
+    {id:15,name:"番茄炒蛋",note:"多放點汁",price:2,cat:"蛋豆腐",img:"draw:plate:#D2503C,#E8A63C:scallion",out:false},
+    {id:16,name:"菜脯蛋",note:"要煎得香",price:2,cat:"蛋豆腐",img:"draw:egg:#E8A63C,#8B6A3A:scallion",out:false},
+    {id:17,name:"蔥花蛋",note:"簡單好吃",price:1,cat:"蛋豆腐",img:"draw:egg:#E8A63C,#6E9A45:scallion",out:false},
+    {id:18,name:"蒸蛋",note:"滑滑嫩嫩",price:1,cat:"蛋豆腐",img:"draw:bowl:#F0CE7A,#C9922F:scallion",out:false},
+    {id:19,name:"皮蛋豆腐",note:"淋醬油膏",price:1,cat:"蛋豆腐",img:"draw:tofu:#F2E6CC,#4E5A4A:cilantro",out:false},
+    {id:20,name:"紅燒豆腐",note:"醬汁濃",price:2,cat:"蛋豆腐",img:"draw:tofu:#E8D2A8,#A8492A:scallion",out:false},
+    {id:21,name:"三色蛋",note:"切開很漂亮",price:2,cat:"蛋豆腐",img:"draw:bowl:#EFC96E,#5E7A34:none",out:false},
+    {id:22,name:"滷蛋",note:"滷越久越入味",price:1,cat:"蛋豆腐",img:"draw:egg:#C08A44,#7A4A26:none",out:false},
+    {id:23,name:"清蒸鱸魚",note:"鮮就好",price:3,cat:"海鮮",img:"draw:fish:#C9C2B0,#7C9A4B:ginger",out:false},
+    {id:24,name:"破布子蒸魚",note:"阿嬤的味道",price:3,cat:"海鮮",img:"draw:fish:#C4BDA8,#8B6A3A:ginger",out:false},
+    {id:25,name:"蒜蓉蒸蝦",note:"蒜要爆香",price:3,cat:"海鮮",img:"draw:shrimp:#E0754F,#EFD9A0:cilantro",out:false},
+    {id:26,name:"三杯中卷",note:"很有嚼勁",price:3,cat:"海鮮",img:"draw:plate:#C89A6E,#6E8F3E:basil",out:false},
+    {id:27,name:"蛤蜊絲瓜",note:"湯汁最讚",price:2,cat:"海鮮",img:"draw:plate:#8AA84E,#D8CBA8:ginger",out:false},
+    {id:28,name:"鹹酥蝦",note:"連殼一起吃",price:3,cat:"海鮮",img:"draw:shrimp:#D2683F,#C9922F:chili",out:false},
+    {id:29,name:"蒜炒空心菜",note:"要大火",price:1,cat:"青菜",img:"draw:greens:#5E8A3A,#D8C89A:chili",out:false},
+    {id:30,name:"燙青江菜",note:"淋點蔥油",price:1,cat:"青菜",img:"draw:greens:#6E9A45,#E0CFA0:crisp",out:false},
+    {id:31,name:"炒高麗菜",note:"加點蒜頭",price:1,cat:"青菜",img:"draw:greens:#8AA84E,#D8C89A:none",out:false},
+    {id:32,name:"涼拌小黃瓜",note:"冰過更好吃",price:1,cat:"青菜",img:"draw:greens:#7CA84E,#EFE0C0:sesame",out:false},
+    {id:33,name:"炒地瓜葉",note:"加點薑絲",price:1,cat:"青菜",img:"draw:greens:#4E7A32,#C9A24A:ginger",out:false},
+    {id:34,name:"滷筍乾",note:"客家味",price:1,cat:"青菜",img:"draw:plate:#B08A4A,#7A4A26:chili",out:false},
+    {id:35,name:"醬燒茄子",note:"要保持紫色",price:2,cat:"青菜",img:"draw:plate:#7A5A8E,#8B5A2B:scallion",out:false},
+    {id:36,name:"蛤蜊湯",note:"加點薑絲",price:1,cat:"湯",img:"draw:bowl:#DCC9A0,#8AA84E:ginger",out:false},
+    {id:37,name:"味噌湯",note:"放豆腐跟蔥",price:1,cat:"湯",img:"draw:bowl:#C68A3E,#EFE0C0:scallion",out:false},
+    {id:38,name:"竹筍排骨湯",note:"夏天必喝",price:2,cat:"湯",img:"draw:bowl:#D8C08A,#B0764A:scallion",out:false},
+    {id:39,name:"冬瓜蛤蜊湯",note:"清清爽爽",price:1,cat:"湯",img:"draw:bowl:#DCD2B4,#8AA84E:ginger",out:false},
+    {id:40,name:"玉米濃湯",note:"小孩最愛",price:1,cat:"湯",img:"draw:bowl:#EFC96E,#E8A63C:none",out:false},
+    {id:41,name:"紫菜蛋花湯",note:"三分鐘搞定",price:1,cat:"湯",img:"draw:bowl:#C9A24A,#4E5A4A:scallion",out:false},
+    {id:42,name:"麻油雞湯",note:"冬天喝最好",price:3,cat:"湯",img:"draw:bowl:#B0764A,#8B4A24:ginger",out:false},
+    {id:43,name:"香菇雞湯",note:"燉久一點",price:3,cat:"湯",img:"draw:bowl:#D0A85E,#7A5A3A:scallion",out:false},
+    {id:44,name:"白飯",note:"一碗",price:1,cat:"主食",img:"draw:rice:#E8DCC4,#C9A24A:none",out:false},
+    {id:45,name:"滷肉飯",note:"再加顆滷蛋",price:2,cat:"主食",img:"draw:rice:#7A4A26,#C08A3A:scallion",out:false},
+    {id:46,name:"蛋炒飯",note:"粒粒分明",price:2,cat:"主食",img:"draw:rice:#E8A63C,#6E9A45:scallion",out:false},
+    {id:47,name:"陽春麵",note:"加點油蔥酥",price:2,cat:"主食",img:"draw:noodle:#E8D5A8,#8B5A2B:crisp",out:false},
+    {id:48,name:"蔥油餅",note:"煎到酥",price:1,cat:"主食",img:"draw:roll:#E0B45E,#6E9A45:scallion",out:false},
+    {id:49,name:"水餃",note:"一次煮一大鍋",price:2,cat:"主食",img:"draw:dumpling:#F0E4C8,#8AA84E:none",out:false},
+    {id:50,name:"冰鎮西瓜",note:"飯後吃",price:1,cat:"點心",img:"draw:fruit:#D9503F,#7CA84E:none",out:false}
+  ],
+  orders:[], nextId:51
+};
+
+var S;
+try { S = JSON.parse(localStorage.getItem(KEY)); } catch(e){ S = null; }
+if (!S || !S.dishes) S = JSON.parse(JSON.stringify(DEFAULT));
+/* 舊版存的店名／標語若還是預設值，跟著換成新的，菜單和訂單原樣保留 */
+if (S.shop === "妈妈食堂" || S.shop === "爸爸妈妈小食堂") S.shop = DEFAULT.shop;
+if (S.slogan === "今天想吃点什么" || S.slogan === "花爱心吃晚餐") S.slogan = DEFAULT.slogan;
+if (typeof S.budget !== "number") S.budget = 0;
+/* 舊版預設菜名是簡體，一次換成繁體；自己加的菜不動 */
+var T2 = {"红烧肉":"紅燒肉","西红柿炒蛋":"番茄炒蛋","可乐鸡翅":"可樂雞翅","蒜蓉青菜":"蒜炒青菜",
+  "紫菜蛋花汤":"紫菜蛋花湯","白米饭":"白米飯","手擀面":"手擀麵","冰镇西瓜":"冰鎮西瓜",
+  "炖得烂烂的":"燉得爛爛的","多放点汁":"多放點汁","饭后吃":"飯後吃",
+  "热菜":"熱菜","汤":"湯","饮料水果":"飲料水果","妈妈":"媽媽"};
+for (var _i=0;_i<S.dishes.length;_i++){
+  var _d = S.dishes[_i];
+  _d.name = T2[_d.name] || _d.name;
+  _d.note = T2[_d.note] || _d.note;
+  _d.cat  = T2[_d.cat]  || _d.cat;
+  if (_d.img === undefined) _d.img = "";
+}
+for (var _j=0;_j<S.people.length;_j++) S.people[_j] = T2[S.people[_j]] || S.people[_j];
+for (var _i=0;_i<S.dishes.length;_i++) if (S.dishes[_i].img === undefined) S.dishes[_i].img = "";
+
+function save(){
+  try { localStorage.setItem(KEY, JSON.stringify(S)); return true; }
+  catch(e){ toast("存不下了，圖片太多。去設定看看，或刪掉幾張圖"); return false; }
+}
+function usedKB(){ try { return Math.round(JSON.stringify(S).length/1024); } catch(e){ return 0; } }
+
+var cart = {}, view = "order", tab = "orders";
+
+/* ---------- 小工具 ---------- */
+function toast(m){
+  var t=$("toast"); t.textContent=m; t.classList.add("on");
+  clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove("on");},2400);
+}
+function buzz(m){ if(navigator.vibrate){ try{navigator.vibrate(m);}catch(e){} } }
+function esc(s){
+  return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+var HEART = '<svg viewBox="0 0 24 22" width="16" height="15" aria-hidden="true">' +
+  '<path d="M12 20.6S2.9 14.3 2.9 8.2A5.3 5.3 0 0 1 12 4.5a5.3 5.3 0 0 1 9.1 3.7c0 6.1-9.1 12.4-9.1 12.4z" fill="currentColor"/></svg>';
+/* 愛心不多就一顆顆排出來，多了改成 ❤×N，免得一行擺不下 */
+function hearts(n, cls){
+  n = Math.max(0, Math.round(n||0));
+  var c = 'hearts' + (cls ? ' '+cls : '');
+  if (!n) return '<span class="free">免費</span>';
+  if (n <= 5){
+    var t = '';
+    for (var i=0;i<n;i++) t += HEART;
+    return '<span class="'+c+'" aria-label="'+n+'顆愛心">'+t+'</span>';
+  }
+  return '<span class="'+c+'" aria-label="'+n+'顆愛心">'+HEART+'<b>× '+n+'</b></span>';
+}
+function heartText(n){ return (Math.round(n||0)) + " 顆愛心"; }
+function hhmm(ts){ var d=new Date(ts); return ("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2); }
+
+/* ---------- 手繪插圖：離線可用、不靠外部圖床 ---------- */
+function mix(hex,w){
+  var r=parseInt(hex.substr(1,2),16),g=parseInt(hex.substr(3,2),16),b=parseInt(hex.substr(5,2),16);
+  if(w>=0){ r=Math.round(r+(255-r)*w); g=Math.round(g+(255-g)*w); b=Math.round(b+(255-b)*w); }
+  else { var k=1+w; r=Math.round(r*k); g=Math.round(g*k); b=Math.round(b*k); }
+  return "#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+}
+
+/* 桌面、影子、餐具 —— 每張圖共用的底 */
+function tableBG(c){
+  return '<rect width="120" height="90" fill="'+mix(c,.90)+'"/>' +
+         '<path d="M0 64h120v26H0z" fill="'+mix(c,.74)+'"/>' +
+         '<path d="M0 64h120v1.6H0z" fill="'+mix(c,.60)+'"/>' +
+         '<g opacity=".35" stroke="'+mix(c,.62)+'" stroke-width="1"><path d="M14 68v22M52 68v22M92 68v22"/></g>';
+}
+var SHADOW = '<ellipse cx="60" cy="71" rx="43" ry="6.5" fill="#4A382B" opacity=".15"/>';
+var PLATE =
+  SHADOW +
+  '<ellipse cx="60" cy="61" rx="45" ry="20" fill="#E7D9C0"/>' +
+  '<ellipse cx="60" cy="58.5" rx="45" ry="20" fill="#FFFDF8"/>' +
+  '<ellipse cx="60" cy="57.5" rx="34" ry="14" fill="#F6EDDC"/>' +
+  '<path d="M26 52a36 14 0 0 1 20-7" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".95"/>' +
+  '<path d="M92 62a36 14 0 0 1-14 6" stroke="#E7D9C0" stroke-width="2" fill="none" stroke-linecap="round"/>';
+var BOWL =
+  SHADOW +
+  '<path d="M49 70h22l-2.5 7h-17z" fill="#E7D9C0"/>' +
+  '<path d="M20 43h80c0 21-16 33-40 33S20 64 20 43z" fill="#E7D9C0"/>' +
+  '<path d="M21 43h78c-1 20-16 31-39 31S22 63 21 43z" fill="#FFFDF8"/>' +
+  '<ellipse cx="60" cy="43" rx="40" ry="9.5" fill="#E7D9C0"/>' +
+  '<ellipse cx="60" cy="43" rx="36.5" ry="8" fill="#F6EDDC"/>' +
+  '<path d="M29 55c2 9 12 15 21 17" stroke="#fff" stroke-width="3.2" fill="none" opacity=".6" stroke-linecap="round"/>';
+var STEAM =
+  '<g stroke="#fff" stroke-width="3.2" stroke-linecap="round" fill="none" opacity=".85">' +
+  '<path d="M45 26c5-5-4-8 1-13"/><path d="M60 22c5-5-4-8 1-13"/><path d="M75 26c5-5-4-8 1-13"/></g>';
+/* 高光：讓食材看起來油亮 */
+function gloss(x,y,w){
+  return '<path d="M'+x+' '+y+'q'+(w/2)+' -3 '+w+' 0" stroke="#fff" stroke-width="2.2" fill="none" opacity=".38" stroke-linecap="round"/>';
+}
+
+/* 配菜層 —— 同樣的盤子，撒上不同的東西就是不同的菜 */
+var GARNISH = {
+  none: function(){ return ''; },
+  /* 蔥花 */
+  scallion: function(){
+    var P=[[41,41],[55,36],[72,39],[63,47],[48,49],[78,45],[35,47],[68,55],[52,57]], t='';
+    for(var i=0;i<P.length;i++)
+      t+='<rect x="'+P[i][0]+'" y="'+P[i][1]+'" width="4.6" height="3.4" rx="1.6" fill="'+(i%2?"#6E9A45":"#8FBA55")+'"/>';
+    return t;
+  },
+  /* 辣椒絲 */
+  chili: function(){
+    return '<g fill="#C4352B">' +
+      '<rect x="40" y="40" width="12" height="3" rx="1.5" transform="rotate(-16 40 40)"/>' +
+      '<rect x="62" y="36" width="14" height="3" rx="1.5" transform="rotate(12 62 36)"/>' +
+      '<rect x="52" y="53" width="13" height="3" rx="1.5" transform="rotate(-8 52 53)"/>' +
+      '<rect x="74" y="47" width="10" height="3" rx="1.5" transform="rotate(24 74 47)"/></g>';
+  },
+  /* 白芝麻 */
+  sesame: function(){
+    var P=[[44,40],[57,36],[69,41],[50,47],[64,49],[76,44],[38,48],[59,56]], t='';
+    for(var i=0;i<P.length;i++)
+      t+='<ellipse cx="'+P[i][0]+'" cy="'+P[i][1]+'" rx="2" ry="1.4" fill="#FFF6E0" stroke="#D8C39A" stroke-width=".6"/>';
+    return t;
+  },
+  /* 九層塔 */
+  basil: function(){
+    return '<g fill="#3F6B2E">' +
+      '<ellipse cx="44" cy="39" rx="7" ry="4.2" transform="rotate(-25 44 39)"/>' +
+      '<ellipse cx="66" cy="35" rx="7.5" ry="4.4" transform="rotate(18 66 35)"/>' +
+      '<ellipse cx="56" cy="50" rx="7" ry="4" transform="rotate(-8 56 50)"/></g>' +
+      '<g stroke="#5E8A3A" stroke-width="1.4" fill="none">' +
+      '<path d="M40 41h8M62 36h8M52 51h8"/></g>';
+  },
+  /* 薑絲 */
+  ginger: function(){
+    return '<g fill="#EBD79B">' +
+      '<rect x="42" y="38" width="15" height="2.6" rx="1.3" transform="rotate(-14 42 38)"/>' +
+      '<rect x="58" y="35" width="16" height="2.6" rx="1.3" transform="rotate(8 58 35)"/>' +
+      '<rect x="50" y="52" width="15" height="2.6" rx="1.3" transform="rotate(-5 50 52)"/>' +
+      '<rect x="68" y="46" width="13" height="2.6" rx="1.3" transform="rotate(20 68 46)"/></g>';
+  },
+  /* 香菜 */
+  cilantro: function(){
+    function leaf(x,y){
+      return '<g fill="#5E8A3A" transform="translate('+x+','+y+')">' +
+             '<circle cx="0" cy="0" r="3"/><circle cx="4.2" cy="-1.6" r="2.6"/><circle cx="-4" cy="-1.4" r="2.6"/></g>';
+    }
+    return leaf(46,39)+leaf(68,37)+leaf(57,51);
+  },
+  /* 油蔥酥 */
+  crisp: function(){
+    var P=[[46,39],[58,35],[70,40],[52,48],[66,50],[40,46]], t='';
+    for(var i=0;i<P.length;i++)
+      t+='<rect x="'+P[i][0]+'" y="'+P[i][1]+'" width="5" height="3.2" rx="1.4" fill="#B57A34" opacity=".9"/>';
+    return t;
+  }
+};
+
+var DRAW = {
+  /* 一盤熱炒 */
+  plate:function(a,b){
+    var P=[[40,42,11,9],[55,37,12,9],[70,41,11,9],[46,50,12,9],[62,50,12,9],[77,47,10,8],[34,49,10,8],[56,58,11,8]];
+    var t='';
+    for(var i=0;i<P.length;i++){
+      var c=(i%3?a:b);
+      t+='<rect x="'+P[i][0]+'" y="'+P[i][1]+'" width="'+P[i][2]+'" height="'+P[i][3]+'" rx="3.6" fill="'+c+'"/>';
+      t+='<rect x="'+P[i][0]+'" y="'+P[i][1]+'" width="'+P[i][2]+'" height="3" rx="1.5" fill="'+mix(c,.32)+'" opacity=".7"/>';
+    }
+    return PLATE+t;
+  },
+  /* 青菜 */
+  greens:function(a,b){
+    return PLATE +
+      '<g fill="'+mix(a,-.18)+'"><ellipse cx="46" cy="46" rx="16" ry="8" transform="rotate(-20 46 46)"/>' +
+      '<ellipse cx="71" cy="44" rx="17" ry="8" transform="rotate(14 71 44)"/>' +
+      '<ellipse cx="58" cy="55" rx="18" ry="8" transform="rotate(-5 58 55)"/></g>' +
+      '<g fill="'+a+'"><ellipse cx="45" cy="44" rx="13" ry="6" transform="rotate(-20 45 44)"/>' +
+      '<ellipse cx="70" cy="42" rx="14" ry="6" transform="rotate(14 70 42)"/>' +
+      '<ellipse cx="57" cy="53" rx="15" ry="6" transform="rotate(-5 57 53)"/></g>' +
+      '<g fill="'+b+'"><rect x="36" y="51" width="20" height="5" rx="2.5"/>' +
+      '<rect x="64" y="47" width="18" height="5" rx="2.5"/></g>' + gloss(48,42,14);
+  },
+  /* 大塊肉 */
+  meat:function(a,b){
+    var t='';
+    var P=[[34,37,29,19],[59,42,29,19],[46,52,28,16]];
+    for(var i=0;i<P.length;i++){
+      t+='<rect x="'+P[i][0]+'" y="'+(P[i][1]+2)+'" width="'+P[i][2]+'" height="'+P[i][3]+'" rx="6.5" fill="'+mix(a,-.22)+'"/>';
+      t+='<rect x="'+P[i][0]+'" y="'+P[i][1]+'" width="'+P[i][2]+'" height="'+P[i][3]+'" rx="6.5" fill="'+a+'"/>';
+      t+='<rect x="'+(P[i][0]+4)+'" y="'+(P[i][1]+3.5)+'" width="'+(P[i][2]-12)+'" height="4.5" rx="2.2" fill="'+b+'" opacity=".75"/>';
+      t+=gloss(P[i][0]+5,P[i][1]+9,P[i][2]-14);
+    }
+    return PLATE+t;
+  },
+  /* 蛋 */
+  egg:function(a,b){
+    return PLATE +
+      '<ellipse cx="55" cy="49" rx="26" ry="15.5" fill="#F3E6C8"/>' +
+      '<ellipse cx="55" cy="47.5" rx="25" ry="14.5" fill="#FFFDF3"/>' +
+      '<ellipse cx="75" cy="53" rx="15" ry="10" fill="#FFFDF3"/>' +
+      '<circle cx="55" cy="47" r="10.5" fill="'+mix(a,-.15)+'"/>' +
+      '<circle cx="55" cy="46" r="9.5" fill="'+a+'"/>' +
+      '<ellipse cx="51.5" cy="42.5" rx="3.2" ry="2.2" fill="#fff" opacity=".55"/>' +
+      '<g fill="'+b+'"><circle cx="78" cy="52" r="3.2"/><circle cx="38" cy="52" r="2.8"/></g>';
+  },
+  /* 整條魚 */
+  fish:function(a,b){
+    return PLATE +
+      '<path d="M28 53c10-16 48-16 58 0-10 16-48 16-58 0z" fill="'+mix(a,-.18)+'"/>' +
+      '<path d="M28 53c10-15 48-15 58 0-14 8-44 8-58 0z" fill="'+a+'"/>' +
+      '<path d="M86 53l16-11v22z" fill="'+mix(a,-.1)+'"/>' +
+      '<path d="M54 41q9 9 0 18" stroke="'+b+'" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+      '<path d="M68 42q8 8 0 16" stroke="'+b+'" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+      '<path d="M50 45q10 4 20 0" stroke="#fff" stroke-width="2" fill="none" opacity=".45" stroke-linecap="round"/>' +
+      '<circle cx="40" cy="50" r="3.2" fill="#FFFDF8"/><circle cx="40" cy="50" r="1.8" fill="#4A382B"/>';
+  },
+  /* 湯 */
+  bowl:function(a,b){
+    return BOWL +
+      '<ellipse cx="60" cy="43" rx="36" ry="7.8" fill="'+mix(a,-.12)+'"/>' +
+      '<ellipse cx="60" cy="42.4" rx="34" ry="7" fill="'+a+'"/>' +
+      '<g fill="'+b+'"><ellipse cx="48" cy="42" rx="6.5" ry="3.2"/><ellipse cx="67" cy="44" rx="7.5" ry="3.4"/>' +
+      '<ellipse cx="77" cy="41" rx="5" ry="2.6"/><ellipse cx="57" cy="45" rx="5.5" ry="2.8"/></g>' +
+      '<ellipse cx="45" cy="39" rx="7" ry="2.4" fill="#fff" opacity=".3"/>' + STEAM;
+  },
+  /* 飯 */
+  rice:function(a,b){
+    return BOWL +
+      '<path d="M26 43c6-17 62-17 68 0z" fill="#F0E6D0"/>' +
+      '<path d="M27 43c7-15 59-15 65 0z" fill="#FFFDF5"/>' +
+      '<ellipse cx="60" cy="43" rx="33" ry="7.5" fill="#FFFDF5"/>' +
+      '<g fill="#EFE4CE"><circle cx="46" cy="38" r="1.6"/><circle cx="55" cy="34" r="1.6"/>' +
+      '<circle cx="70" cy="38" r="1.6"/><circle cx="63" cy="41" r="1.6"/></g>' +
+      '<g fill="'+mix(a,-.2)+'"><rect x="44" y="31" width="14" height="9" rx="4"/>' +
+      '<rect x="59" y="33" width="14" height="9" rx="4"/><rect x="52" y="24" width="13" height="9" rx="4"/></g>' +
+      '<g fill="'+a+'"><rect x="44" y="30" width="14" height="7" rx="3.5"/>' +
+      '<rect x="59" y="32" width="14" height="7" rx="3.5"/><rect x="52" y="23" width="13" height="7" rx="3.5"/></g>' +
+      '<circle cx="74" cy="29" r="3.6" fill="'+b+'"/>' + STEAM;
+  },
+  /* 麵 */
+  noodle:function(a,b){
+    return BOWL +
+      '<ellipse cx="60" cy="43" rx="35" ry="7.6" fill="'+mix(a,.5)+'"/>' +
+      '<g stroke="'+mix(a,-.2)+'" stroke-width="4" fill="none" stroke-linecap="round">' +
+      '<path d="M31 40q9 7 17 0t17 0 16 0"/><path d="M30 47q9 7 17 0t17 0 16 0"/></g>' +
+      '<g stroke="'+a+'" stroke-width="2.6" fill="none" stroke-linecap="round">' +
+      '<path d="M31 39q9 7 17 0t17 0 16 0"/><path d="M30 46q9 7 17 0t17 0 16 0"/></g>' +
+      '<circle cx="72" cy="37" r="6.5" fill="'+mix(b,-.15)+'"/><circle cx="72" cy="36" r="5.5" fill="'+b+'"/>' + STEAM;
+  },
+  /* 豆腐 */
+  tofu:function(a,b){
+    var t='', P=[[36,38],[60,40],[48,51]];
+    for(var i=0;i<P.length;i++){
+      t+='<rect x="'+P[i][0]+'" y="'+(P[i][1]+2)+'" width="21" height="17" rx="3" fill="'+mix(a,-.2)+'"/>';
+      t+='<rect x="'+P[i][0]+'" y="'+P[i][1]+'" width="21" height="17" rx="3" fill="'+a+'"/>';
+      t+='<rect x="'+(P[i][0]+3)+'" y="'+(P[i][1]+2.5)+'" width="8" height="3" rx="1.5" fill="#fff" opacity=".5"/>';
+      t+='<path d="M'+(P[i][0]+2)+' '+(P[i][1]+3)+'q10 -4 17 2" fill="'+b+'" opacity=".85"/>';
+    }
+    return PLATE+t;
+  },
+  /* 炸物 */
+  fried:function(a,b){
+    var t='', P=[[44,47,13,11],[67,44,14,11],[57,57,14,10]];
+    for(var i=0;i<P.length;i++){
+      t+='<ellipse cx="'+P[i][0]+'" cy="'+(P[i][1]+2)+'" rx="'+P[i][2]+'" ry="'+P[i][3]+'" fill="'+mix(a,-.22)+'"/>';
+      t+='<ellipse cx="'+P[i][0]+'" cy="'+P[i][1]+'" rx="'+P[i][2]+'" ry="'+P[i][3]+'" fill="'+a+'"/>';
+      t+='<ellipse cx="'+(P[i][0]-4)+'" cy="'+(P[i][1]-5)+'" rx="4" ry="2.6" fill="#fff" opacity=".3"/>';
+    }
+    t+='<g fill="'+b+'" opacity=".55"><circle cx="40" cy="44" r="2.2"/><circle cx="49" cy="50" r="1.9"/>' +
+       '<circle cx="64" cy="41" r="2.2"/><circle cx="73" cy="47" r="1.9"/><circle cx="54" cy="56" r="2.1"/>' +
+       '<circle cx="62" cy="60" r="1.7"/></g>';
+    return PLATE+t;
+  },
+  /* 水餃 */
+  dumpling:function(a,b){
+    var t='', P=[[40,44],[62,41],[51,55]];
+    for(var i=0;i<P.length;i++){
+      var x=P[i][0], y=P[i][1];
+      t+='<path d="M'+x+' '+(y+13)+'q9 -18 22 0z" fill="'+mix(a,-.15)+'"/>';
+      t+='<path d="M'+x+' '+(y+12)+'q9 -17 22 0z" fill="'+a+'"/>';
+      t+='<g stroke="'+b+'" stroke-width="1.8" fill="none" stroke-linecap="round">' +
+         '<path d="M'+(x+3)+' '+(y+6)+'v-3M'+(x+9)+' '+(y+3)+'v-3M'+(x+15)+' '+(y+5)+'v-3"/></g>';
+      t+=gloss(x+4,y+8,14);
+    }
+    return PLATE+t;
+  },
+  /* 蝦 */
+  shrimp:function(a,b){
+    var t='';
+    var P=[[40,48,-14],[64,43,8],[54,58,-4]];
+    for(var i=0;i<P.length;i++){
+      t+='<g transform="translate('+P[i][0]+','+P[i][1]+') rotate('+P[i][2]+')">' +
+         '<path d="M0 0c-3-9 4-15 12-13 7 2 8 9 3 12 3 2 5 5 4 8l-6-4c-4 2-10 1-13-3z" fill="'+mix(a,-.18)+'"/>' +
+         '<path d="M1 -1c-2-8 4-13 11-11 6 1 7 8 2 10 2 2 4 4 3 7l-5-4c-4 1-9 0-11-2z" fill="'+a+'"/>' +
+         '<g stroke="'+b+'" stroke-width="1.4" fill="none" stroke-linecap="round"><path d="M2 -3l3 5M7 -6l2 6M12 -7l1 6"/></g>' +
+         '</g>';
+    }
+    return PLATE+t;
+  },
+  /* 捲餅 */
+  roll:function(a,b){
+    return PLATE +
+      '<rect x="30" y="39" width="58" height="21" rx="10.5" fill="'+mix(a,-.2)+'"/>' +
+      '<rect x="30" y="37" width="58" height="21" rx="10.5" fill="'+a+'"/>' +
+      '<path d="M36 45h46" stroke="'+b+'" stroke-width="3.2" stroke-linecap="round" opacity=".8"/>' +
+      '<g stroke="'+mix(a,-.25)+'" stroke-width="2.2"><path d="M49 38v20M67 38v20"/></g>' +
+      '<g fill="#fff" opacity=".3"><ellipse cx="42" cy="42" rx="6" ry="2.4"/></g>';
+  },
+  /* 水果 */
+  fruit:function(a,b){
+    return PLATE +
+      '<path d="M34 58a26 26 0 0 1 52 0z" fill="#F2EAD2"/>' +
+      '<path d="M37 58a23 23 0 0 1 46 0z" fill="'+b+'"/>' +
+      '<path d="M42 58a18 18 0 0 1 36 0z" fill="'+a+'"/>' +
+      '<g fill="#4A382B"><ellipse cx="53" cy="49" rx="1.7" ry="2.4"/><ellipse cx="67" cy="49" rx="1.7" ry="2.4"/>' +
+      '<ellipse cx="60" cy="54" rx="1.7" ry="2.4"/><ellipse cx="60" cy="45" rx="1.7" ry="2.4"/></g>' +
+      '<path d="M46 50a15 15 0 0 1 12-6" stroke="#fff" stroke-width="2.2" fill="none" opacity=".35" stroke-linecap="round"/>';
+  }
+};
+
+function drawDish(spec){
+  var p = spec.slice(5).split(":");
+  var cs = (p[1]||"#C4694A,#7C8A46").split(",");
+  var f = DRAW[p[0]] || DRAW.plate;
+  var g = GARNISH[p[2]] || GARNISH.none;
+  return '<svg viewBox="0 0 120 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+         tableBG(cs[0]) + f(cs[0], cs[1]||cs[0]) + g() + '</svg>';
+}
+
+/* 沒圖時的替代色塊：依 id 取一個固定的暖色 */
+var TINTS = ["#C4694A","#7C8A46","#C79A3A","#9A6647","#B2734E","#8E8055","#A85E52","#6F8360"];
+function tint(id){ return TINTS[Math.abs(id) % TINTS.length]; }
+function thumbHTML(d){
+  if (d.img && d.img.indexOf("draw:")===0) return drawDish(d.img);
+  if (d.img) return '<img src="'+esc(d.img)+'" alt="'+esc(d.name)+'" loading="lazy" ' +
+                    'onerror="this.parentNode.innerHTML=\'<div class=&quot;ph&quot; style=&quot;background:'+tint(d.id)+'&quot;>'+esc((d.name||"菜").charAt(0))+'</div>\'">';
+  return '<div class="ph" style="background:'+tint(d.id)+'">'+esc((d.name||"菜").charAt(0))+'</div>';
+}
+
+/* 選圖後壓成 480px 的 JPEG */
+function pickImage(cb){
+  var inp = $("filePick");
+  inp.value = "";
+  inp.onchange = function(){
+    var f = inp.files && inp.files[0];
+    if (!f) return;
+    toast("正在處理圖片…");
+    var r = new FileReader();
+    r.onload = function(){
+      var im = new Image();
+      im.onload = function(){
+        var max = 480, w = im.width, h = im.height;
+        var k = Math.min(1, max/Math.max(w,h));
+        var c = document.createElement("canvas");
+        c.width = Math.max(1,Math.round(w*k));
+        c.height = Math.max(1,Math.round(h*k));
+        var ctx = c.getContext("2d");
+        ctx.fillStyle = "#fff"; ctx.fillRect(0,0,c.width,c.height);
+        ctx.drawImage(im,0,0,c.width,c.height);
+        var out;
+        try { out = c.toDataURL("image/jpeg", 0.72); }
+        catch(e){ toast("這張圖讀不了，換一張試試"); return; }
+        cb(out);
+      };
+      im.onerror = function(){ toast("這張圖讀不了，換一張試試"); };
+      im.src = r.result;
+    };
+    r.onerror = function(){ toast("讀取失敗，換一張試試"); };
+    r.readAsDataURL(f);
+  };
+  inp.click();
+}
+
+/* ---------- 點菜 ---------- */
+function renderMenu(){
+  $("shopName").innerHTML = esc(S.shop) + "<small>" + esc(S.slogan) + "</small>";
+  var live = S.dishes;
+  if (!live.length){
+    $("menuArea").innerHTML = '<div class="empty"><b>菜單還是空的</b>點右上角「廚房」→「改菜單」，把今天要做的菜加進去</div>';
+    updateBar(); return;
+  }
+  var order=[], groups={};
+  for (var i=0;i<live.length;i++){
+    var c = (live[i].cat||"").trim() || "菜單";
+    if (!groups[c]){ groups[c]=[]; order.push(c); }
+    groups[c].push(live[i]);
+  }
+  var idx = {};
+  for (var k=0;k<live.length;k++) idx[live[k].id] = k+1;
+  var html = "", single = order.length===1;
+  for (var g=0; g<order.length; g++){
+    if (!single) html += '<h2 class="cat">'+esc(order[g])+'</h2>';
+    html += '<div class="grid">';
+    var arr = groups[order[g]];
+    for (var j=0;j<arr.length;j++){
+      var d = arr[j], q = cart[d.id]||0;
+      var no = ("0"+(idx[d.id]||0)).slice(-2);
+      html += '<div class="dish'+(d.out?" out":"")+'" data-id="'+d.id+'">' +
+                '<span class="no">'+no+'</span>' +
+                '<div class="thumb">' + thumbHTML(d) +
+                  (d.out ? '<span class="soldtag">今天沒有</span>' : '') +
+                  (q>0 && !d.out ? '<span class="stamp">'+q+'</span>' : '') +
+                '</div>' +
+                '<div class="body">' +
+                  '<div class="nm">'+esc(d.name||"（還沒寫菜名）")+'</div>' +
+                  (d.note?'<div class="note">'+esc(d.note)+'</div>':'') +
+                  (S.showPrice ? '<div class="price">'+hearts(d.price)+'</div>' : '') +
+                '</div>';
+      if (!d.out){
+        html += '<div class="step">' +
+          '<button data-act="minus" aria-label="減少'+esc(d.name)+'"'+(q?"":' disabled style="opacity:.3"')+'>−</button>' +
+          '<span class="q">'+q+'</span>' +
+          '<button data-act="plus" aria-label="增加'+esc(d.name)+'">＋</button></div>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+  $("menuArea").innerHTML = html;
+  updateBar();
+}
+
+function cartTotal(){
+  var lines=[], t=0, n=0;
+  for (var i=0;i<S.dishes.length;i++){
+    var d=S.dishes[i], q=cart[d.id];
+    if (q>0){ lines.push({name:d.name,price:d.price||0,qty:q}); t+=(d.price||0)*q; n+=q; }
+  }
+  return {total:t,count:n,lines:lines};
+}
+function updateBar(){
+  var c=cartTotal(), bar=$("bar");
+  if (view!=="order" || !c.count){ bar.classList.remove("on"); return; }
+  bar.classList.add("on");
+  var line = "共 "+c.lines.length+" 樣 · "+c.count+" 份";
+  if (S.showPrice && S.budget > 0){
+    var left = S.budget - c.total;
+    line += (left >= 0)
+      ? " · 今晚還剩 "+left+" 顆"
+      : ' · <span class="over">超了 '+(-left)+' 顆</span>';
+  }
+  $("barCount").innerHTML = line;
+  $("barTotal").innerHTML = S.showPrice ? (hearts(c.total)+' <span style="font-size:15px;opacity:.8">'+c.total+'</span>')
+                                        : (c.count+" 份");
+}
+
+$("menuArea").addEventListener("click", function(e){
+  var card = e.target.closest(".dish"); if (!card) return;
+  var id = +card.dataset.id, d = null;
+  for (var i=0;i<S.dishes.length;i++) if (S.dishes[i].id===id) d=S.dishes[i];
+  if (!d || d.out) return;
+  var btn = e.target.closest("button");
+  var act = btn ? btn.dataset.act : "plus";
+  var q = cart[id]||0;
+  if (act==="minus") q = Math.max(0,q-1); else { q = Math.min(99,q+1); buzz(12); }
+  if (q) cart[id]=q; else delete cart[id];
+  renderMenu();
+});
+$("clearCart").addEventListener("click", function(){ cart={}; renderMenu(); });
+
+/* ---------- 下單 ---------- */
+function openSheet(h){ $("sheetCard").innerHTML=h; $("sheet").classList.add("on"); }
+function closeSheet(){ $("sheet").classList.remove("on"); }
+$("sheet").addEventListener("click", function(e){ if (e.target===$("sheet")) closeSheet(); });
+
+$("goCheck").addEventListener("click", function(){
+  var c = cartTotal(); if (!c.count) return;
+  var h = '<h2>確認一下</h2>';
+  for (var i=0;i<c.lines.length;i++){
+    var L=c.lines[i];
+    h += '<div class="row"><span>'+esc(L.name)+' × '+L.qty+'</span>' +
+         (S.showPrice ? '<b>'+hearts(L.price*L.qty)+'</b>' : '') + '</div>';
+  }
+  if (S.showPrice){
+    h += '<div class="total"><span>一共花掉</span><span>'+heartText(c.total)+'</span></div>';
+    if (S.budget > 0){
+      var lf = S.budget - c.total;
+      h += '<p class="hint" style="margin:2px 0 0">' +
+           (lf>=0 ? '今晚額度 '+S.budget+' 顆，點完還剩 '+lf+' 顆。'
+                  : '今晚額度 '+S.budget+' 顆，超了 '+(-lf)+' 顆——不過廚房應該會通融。') + '</p>';
+    }
+  }
+  h += '<label class="field" for="whoIn">誰點的</label>' +
+       '<input type="text" id="whoIn" placeholder="寫個名字，廚房好認" autocomplete="off"><div class="who">';
+  for (var p=0;p<S.people.length;p++) h += '<button data-who="'+esc(S.people[p])+'">'+esc(S.people[p])+'</button>';
+  h += '</div><label class="field" for="noteIn">跟廚房說一句（不用也行）</label>' +
+       '<input type="text" id="noteIn" placeholder="少放辣、多加醋…" autocomplete="off">' +
+       '<button class="btn" id="submitOrder">交給廚房</button>' +
+       '<button class="btn ghost" id="backEdit">再改改</button>';
+  openSheet(h);
+});
+
+$("sheetCard").addEventListener("click", function(e){
+  var w = e.target.closest("[data-who]");
+  if (w){ $("whoIn").value = w.dataset.who; return; }
+  if (e.target.id==="backEdit" || e.target.id==="sheetDone"){ closeSheet(); return; }
+  if (e.target.id==="submitOrder"){ submitOrder(); return; }
+});
+
+function submitOrder(){
+  var c = cartTotal(); if (!c.count) return;
+  var who = ($("whoIn").value||"").trim() || "客人";
+  var note = ($("noteIn").value||"").trim();
+  S.orders.unshift({id:Date.now(),who:who,note:note,items:c.lines,total:c.total,time:Date.now(),done:false});
+  if (S.orders.length > 120) S.orders.length = 120;
+  if (who!=="客人" && S.people.indexOf(who)===-1){
+    S.people.push(who); if (S.people.length>12) S.people.shift();
+  }
+  save(); cart={}; buzz([20,60,20]); renderMenu();
+  openSheet('<h2>點好囉</h2><p style="font-size:18px;line-height:1.7;margin:0">'+esc(who)+
+            ' 的菜已經送到廚房，這就開做。</p><button class="btn" id="sheetDone">再點一單</button>');
+}
+
+/* ---------- 廚房 ---------- */
+function renderKitchen(){
+  $("tabOrders").setAttribute("aria-selected", tab==="orders");
+  $("tabMenu").setAttribute("aria-selected", tab==="menu");
+  $("tabSet").setAttribute("aria-selected", tab==="set");
+  $("paneOrders").hidden = tab!=="orders";
+  $("paneMenu").hidden   = tab!=="menu";
+  $("paneSet").hidden    = tab!=="set";
+  if (tab==="orders") renderOrders();
+  if (tab==="menu")   renderMenuEditor();
+  if (tab==="set")    renderSettings();
+}
+
+function renderOrders(){
+  if (!S.orders.length){
+    $("paneOrders").innerHTML = '<div class="empty"><b>還沒有人點菜</b>讓家裡人拿平板點幾道菜，訂單就會出現在這裡</div>';
+    return;
+  }
+  var h = "";
+  for (var i=0;i<S.orders.length;i++){
+    var o = S.orders[i];
+    h += '<div class="order'+(o.done?" done":"")+'" data-oid="'+o.id+'">' +
+         '<div class="hd"><b>'+esc(o.who)+'</b><time>'+hhmm(o.time)+'</time></div><ul>';
+    for (var j=0;j<o.items.length;j++)
+      h += '<li><span>'+esc(o.items[j].name)+'</span><span>× '+o.items[j].qty+'</span></li>';
+    h += '</ul>';
+    if (o.note) h += '<p style="margin:10px 0 0;font-size:15px;color:var(--pine)">備註：'+esc(o.note)+'</p>';
+    if (S.showPrice)
+      h += '<div class="total" style="font-size:17px"><span>一共花掉</span><span>'+heartText(o.total)+'</span></div>';
+    h += '<div class="act"><button class="ok" data-act="done">'+(o.done?"還沒做好":"做好了")+
+         '</button><button data-act="del">刪掉</button></div></div>';
+  }
+  h += '<button class="btn ghost" id="clearOrders" style="margin-top:18px">清空全部訂單</button>';
+  $("paneOrders").innerHTML = h;
+}
+
+$("paneOrders").addEventListener("click", function(e){
+  if (e.target.id==="clearOrders"){
+    if (confirm("確定清空全部訂單？刪了就找不回來囉。")){ S.orders=[]; save(); renderOrders(); }
+    return;
+  }
+  var box=e.target.closest("[data-oid]"), btn=e.target.closest("button");
+  if (!box||!btn) return;
+  var oid=+box.dataset.oid;
+  for (var i=0;i<S.orders.length;i++){
+    if (S.orders[i].id!==oid) continue;
+    if (btn.dataset.act==="done") S.orders[i].done = !S.orders[i].done;
+    if (btn.dataset.act==="del"){ if(!confirm("刪掉這一單？")) return; S.orders.splice(i,1); }
+    break;
+  }
+  save(); renderOrders();
+});
+
+function renderMenuEditor(){
+  var h = '<button class="btn" id="addDish" style="margin:0 0 18px">＋ 加一道菜</button>';
+  if (!S.dishes.length) h += '<div class="empty"><b>先加幾道菜吧</b>寫上菜名就好，愛心空著也沒關係</div>';
+  for (var i=0;i<S.dishes.length;i++){
+    var d = S.dishes[i];
+    h += '<div class="edit" data-did="'+d.id+'">' +
+      '<button class="pic" data-act="pic" aria-label="幫'+esc(d.name)+'換圖片">' + thumbHTML(d) +
+        '<span class="lbl">'+(d.img?"換圖":"加圖")+'</span></button>' +
+      '<input type="text" data-f="name" value="'+esc(d.name)+'" placeholder="菜名">' +
+      '<input type="number" data-f="price" value="'+(d.price||"")+'" placeholder="幾顆愛心" min="0" max="99" step="1" inputmode="numeric">' +
+      '<input type="text" data-f="cat" value="'+esc(d.cat||"")+'" placeholder="分類">' +
+      '<input class="full" type="text" data-f="note" value="'+esc(d.note||"")+'" placeholder="備註，像是「微辣」「限一份」">' +
+      '<div class="tools">' +
+        '<label><input type="checkbox" data-f="out"'+(d.out?" checked":"")+'> 今天沒有了</label>' +
+        '<button class="lnk" data-act="url">貼圖片網址</button>' +
+        (d.img ? '<button class="lnk" data-act="nopic">拿掉圖片</button>' : '') +
+        '<button class="del" data-act="del">刪掉</button>' +
+      '</div></div>';
+  }
+  h += '<p class="hint">改完會自動存起來。愛心隨便定，白米飯 1 顆、紅燒肉 3 顆這樣，寫 0 或留空就是免費。' +
+       '「加圖」可以直接拍照或從相簿選，圖片會壓小後存在平板裡，沒網路也看得到；' +
+       '「貼圖片網址」是用網路上的圖，要連著 wifi 才會顯示。</p>';
+  $("paneMenu").innerHTML = h;
+}
+
+function findDish(id){
+  for (var i=0;i<S.dishes.length;i++) if (S.dishes[i].id===id) return S.dishes[i];
+  return null;
+}
+
+$("paneMenu").addEventListener("click", function(e){
+  if (e.target.id==="addDish"){
+    S.dishes.push({id:S.nextId++,name:"",note:"",price:1,cat:"熱菜",img:"",out:false});
+    save(); renderMenuEditor();
+    var b = $("paneMenu").querySelectorAll('.edit input[data-f="name"]');
+    if (b.length) b[b.length-1].focus();
+    return;
+  }
+  var btn = e.target.closest("[data-act]"); if (!btn) return;
+  var box = btn.closest("[data-did]"); if (!box) return;
+  var did = +box.dataset.did, d = findDish(did); if (!d) return;
+  var act = btn.dataset.act;
+
+  if (act==="pic"){
+    pickImage(function(dataUrl){
+      var old = d.img; d.img = dataUrl;
+      if (save()){ renderMenuEditor(); toast("圖片加好囉"); }
+      else { d.img = old; renderMenuEditor(); }
+    });
+    return;
+  }
+  if (act==="url"){
+    var u = prompt("把圖片網址貼進來（要以 http 開頭）：", d.img && d.img.indexOf("http")===0 ? d.img : "https://");
+    if (u===null) return;
+    u = u.trim();
+    if (u && !/^https?:\/\//i.test(u)){ toast("網址要以 http 或 https 開頭"); return; }
+    d.img = u; save(); renderMenuEditor();
+    return;
+  }
+  if (act==="nopic"){ d.img=""; save(); renderMenuEditor(); return; }
+  if (act==="del"){
+    if (!confirm("刪掉「"+(d.name||"這道菜")+"」？")) return;
+    S.dishes = S.dishes.filter(function(x){ return x.id!==did; });
+    delete cart[did]; save(); renderMenuEditor();
+  }
+});
+
+$("paneMenu").addEventListener("input", function(e){
+  var box = e.target.closest("[data-did]"); if (!box) return;
+  var d = findDish(+box.dataset.did); if (!d) return;
+  var f = e.target.dataset.f; if (!f) return;
+  if (f==="price") d.price = Math.max(0, Math.round(parseFloat(e.target.value)||0));
+  else if (f==="out") d.out = e.target.checked;
+  else d[f] = e.target.value;
+  save();
+});
+$("paneMenu").addEventListener("change", function(e){
+  if (e.target.dataset.f!=="out") return;
+  var box = e.target.closest("[data-did]"); if (!box) return;
+  var d = findDish(+box.dataset.did); if (d){ d.out = e.target.checked; save(); }
+});
+
+function renderSettings(){
+  var kb = usedKB(), pct = Math.min(100, Math.round(kb/4500*100));
+  $("paneSet").innerHTML =
+    '<label class="field" for="setShop">店名</label><input type="text" id="setShop" value="'+esc(S.shop)+'">' +
+    '<label class="field" for="setSlogan">小標題</label><input type="text" id="setSlogan" value="'+esc(S.slogan)+'">' +
+    '<div class="tools" style="margin-top:20px;font-size:17px">' +
+      '<label style="display:flex;align-items:center;gap:10px">' +
+      '<input type="checkbox" id="setPrice" style="width:24px;height:24px"'+(S.showPrice?" checked":"")+'> 顯示愛心</label></div>' +
+    '<label class="field" for="setBudget">每人今晚的愛心額度</label>' +
+    '<input type="number" id="setBudget" value="'+(S.budget||"")+'" placeholder="留空就是不限" min="0" max="999" step="1" inputmode="numeric">' +
+    '<p class="hint" style="margin-top:8px">填了數字，點菜時下面就會顯示還剩幾顆。超過還是照樣能下單，只是會提一句。</p>' +
+    '<p class="field" style="margin-top:26px">佔用空間</p>' +
+    '<div class="meter"><i style="width:'+pct+'%"></i></div>' +
+    '<p class="hint" style="margin-top:4px">已用大約 '+kb+' KB，瀏覽器大概放得下 5000 KB。' +
+      '每張壓縮後的照片約 40–60 KB，放個幾十張沒問題。快滿了就刪幾張圖，或改用圖片網址。</p>' +
+    '<p class="hint">所有東西只存在這台平板裡，不連網、不上傳。清除瀏覽器資料會一起清掉。</p>' +
+    '<p class="hint">字體用的是免費的「jf open 粉圓」，第一次開要連 wifi 抓一下，之後就存在瀏覽器裡了。' +
+      '真的抓不到也不影響使用，只是會換成平板內建的字。</p>' +
+    '<button class="btn ghost" id="loadPack" style="margin-top:26px">載入 50 道台灣家常菜</button>' +
+    '<button class="btn ghost" id="resetAll">恢復成剛打開的樣子</button>';
+}
+$("paneSet").addEventListener("input", function(e){
+  if (e.target.id==="setShop")   S.shop = e.target.value || "爸爸媽媽小食堂";
+  if (e.target.id==="setSlogan") S.slogan = e.target.value;
+  if (e.target.id==="setPrice")  S.showPrice = e.target.checked;
+  if (e.target.id==="setBudget") S.budget = Math.max(0, Math.round(parseFloat(e.target.value)||0));
+  if (e.target.id==="setPrice" || e.target.id==="setBudget") updateBar();
+  save();
+});
+$("paneSet").addEventListener("click", function(e){
+  if (e.target.id==="loadPack"){
+    if (!confirm("菜單會換成內建的 50 道家常菜，原本的菜就沒了。訂單不受影響，確定嗎？")) return;
+    S.dishes = JSON.parse(JSON.stringify(DEFAULT.dishes));
+    S.nextId = 51; cart = {};
+    save(); renderKitchen(); toast("50 道菜都上架囉");
+    return;
+  }
+  if (e.target.id!=="resetAll") return;
+  if (!confirm("菜單、圖片和訂單都會恢復成預設的，確定嗎？")) return;
+  S = JSON.parse(JSON.stringify(DEFAULT));
+  cart = {}; save(); renderKitchen(); renderMenu(); toast("已經恢復囉");
+});
+
+/* ---------- 切換 ---------- */
+$("navBtn").addEventListener("click", function(){
+  view = (view==="order") ? "kitchen" : "order";
+  $("viewOrder").hidden   = view!=="order";
+  $("viewKitchen").hidden = view!=="kitchen";
+  $("navBtn").textContent = (view==="order") ? "廚房" : "去點菜";
+  window.scrollTo(0,0);
+  if (view==="kitchen") renderKitchen(); else renderMenu();
+  updateBar();
+});
+$("tabOrders").addEventListener("click", function(){ tab="orders"; renderKitchen(); });
+$("tabMenu").addEventListener("click",   function(){ tab="menu";   renderKitchen(); });
+$("tabSet").addEventListener("click",    function(){ tab="set";    renderKitchen(); });
+
+renderMenu();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(function(){});
+}
+</script>
+</body>
+</html>
